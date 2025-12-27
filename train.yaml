@@ -1,0 +1,67 @@
+#----------------------------------------------------------------------------------------------------
+# ModelConfig
+use_peft: true
+torch_dtype: bfloat16
+load_in_4bit: true
+
+attn_implementation: flash_attention_2
+
+lora_r: 128
+lora_alpha: 64
+lora_dropout: 0.05
+peft_task_type: CAUSAL_LM
+
+# GRPOConfig
+seed: 42
+bf16: true
+
+sync_ref_model: true
+ref_model_sync_steps: 64
+
+adam_beta1: 0.9
+adam_beta2: 0.99
+weight_decay: 0.1
+max_grad_norm: 0.2
+
+use_vllm: false
+vllm_device: auto
+vllm_gpu_memory_utilization: 0.9
+
+warmup_steps: 50
+logging_steps: 1
+learning_rate: 1e-6
+
+num_train_epochs: 1
+num_generations: 6
+
+per_device_eval_batch_size: 1
+per_device_train_batch_size: 6
+gradient_accumulation_steps: 8
+
+gradient_checkpointing_kwargs:
+  use_reentrant: false
+
+resume_from_checkpoint: false
+
+run_name: gsm_mmada
+output_dir: /genai/fsx-project/siyanzhao/checkpoints/d1grpo_fixmaskloss_iteration12
+
+# Parameters for saving checkpoints
+save_steps: 4
+save_strategy: steps
+save_total_limit: 500
+save_only_model: false
+
+# Diffusion and GRPO-specific
+max_completion_length: 512
+max_prompt_length: 600
+block_length: 64
+diffusion_steps: 256
+generation_batch_size: 6
+remasking: low_confidence
+random_masking: true
+p_mask_prompt: 0
+beta: 0
+epsilon: 0.15
+num_iterations: 8
+
